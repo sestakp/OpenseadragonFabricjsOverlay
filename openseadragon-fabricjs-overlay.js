@@ -167,14 +167,19 @@ module.exports = function initFabricJSOverlay(OpenSeadragon, fabric) {
     resizeCanvas: function () {
       let origin = new OpenSeadragon.Point(0, 0);
       let viewportZoom = this._viewer.viewport.getZoom(true);
+      let viewportToImageZoom =
+        this._viewer.viewport.viewportToImageZoom(viewportZoom);
       this._fabricCanvas.setWidth(this._containerWidth);
       this._fabricCanvas.setHeight(this._containerHeight);
-      // let zoom = this._viewer.viewport._containerInnerSize.x * viewportZoom / this._scale;
-      // this._fabricCanvas.setZoom(zoom);
-      this._fabricCanvas.setZoom(viewportZoom);
-      let viewportWindowPoint = this._viewer.viewport.viewportToWindowCoordinates(
-        origin
-      );
+
+      /** Original package way of syncing OSD zoom to Fabric zoom */
+      //this._fabricCanvas.setZoom(viewportZoom);
+
+      /** Alternative way of syncing OSD zoom to Fabric zoom, which keeps horizontal window resizing in sync */
+      this._fabricCanvas.setZoom(viewportToImageZoom);
+
+      let viewportWindowPoint =
+        this._viewer.viewport.viewportToWindowCoordinates(origin);
       let x = Math.round(viewportWindowPoint.x);
       let y = Math.round(viewportWindowPoint.y);
       let canvasOffset = this._canvasdiv.getBoundingClientRect();
