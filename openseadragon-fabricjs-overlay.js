@@ -152,15 +152,15 @@ module.exports = function initFabricJSOverlay(OpenSeadragon, fabric) {
     },
     // ----------
     resize: function () {
-      if(this._viewer.container != null){
+      if (this._viewer.container != null) {
         if (this._containerWidth !== this._viewer.container.clientWidth) {
           this._containerWidth = this._viewer.container.clientWidth;
           this._canvasdiv.setAttribute("width", this._containerWidth);
           this._canvas.setAttribute("width", this._containerWidth);
         }
       }
-      
-      if(this._viewer.container != null){
+
+      if (this._viewer.container != null) {
         if (this._containerHeight !== this._viewer.container.clientHeight) {
           this._containerHeight = this._viewer.container.clientHeight;
           this._canvasdiv.setAttribute("height", this._containerHeight);
@@ -169,33 +169,35 @@ module.exports = function initFabricJSOverlay(OpenSeadragon, fabric) {
       }
     },
     resizeCanvas: function () {
-      let origin = new OpenSeadragon.Point(0, 0);
-      let viewportZoom = this._viewer.viewport.getZoom(true);
-      let viewportToImageZoom =
-        this._viewer.viewport.viewportToImageZoom(viewportZoom);
-      this._fabricCanvas.setWidth(this._containerWidth);
-      this._fabricCanvas.setHeight(this._containerHeight);
-
-      /** Original package way of syncing OSD zoom to Fabric zoom */
-      //this._fabricCanvas.setZoom(viewportZoom);
-
-      /** Alternative way of syncing OSD zoom to Fabric zoom, which keeps horizontal window resizing in sync */
-      this._fabricCanvas.setZoom(viewportToImageZoom);
-
-      let viewportWindowPoint =
-        this._viewer.viewport.viewportToWindowCoordinates(origin);
-      let x = Math.round(viewportWindowPoint.x);
-      let y = Math.round(viewportWindowPoint.y);
-      let canvasOffset = this._canvasdiv.getBoundingClientRect();
-
-      let pageScroll = OpenSeadragon.getPageScroll();
-
-      this._fabricCanvas.absolutePan(
-        new fabric.Point(
-          canvasOffset.left - x + pageScroll.x,
-          canvasOffset.top - y + pageScroll.y
-        )
-      );
+      if(this._viewer?.element != undefined && this._viewer?.element != null){
+        let origin = new OpenSeadragon.Point(0, 0);
+        let viewportZoom = this._viewer.viewport.getZoom(true);
+        let viewportToImageZoom =
+          this._viewer.viewport.viewportToImageZoom(viewportZoom);
+        this._fabricCanvas.setWidth(this._containerWidth);
+        this._fabricCanvas.setHeight(this._containerHeight);
+  
+        /** Original package way of syncing OSD zoom to Fabric zoom */
+        //this._fabricCanvas.setZoom(viewportZoom);
+  
+        /** Alternative way of syncing OSD zoom to Fabric zoom, which keeps horizontal window resizing in sync */
+        this._fabricCanvas.setZoom(viewportToImageZoom);
+  
+          let viewportWindowPoint =
+            this._viewer.viewport.viewportToWindowCoordinates(origin);
+          let x = Math.round(viewportWindowPoint.x);
+          let y = Math.round(viewportWindowPoint.y);
+          let canvasOffset = this._canvasdiv.getBoundingClientRect();
+  
+          let pageScroll = OpenSeadragon.getPageScroll();
+  
+          this._fabricCanvas.absolutePan(
+            new fabric.Point(
+              canvasOffset.left - x + pageScroll.x,
+              canvasOffset.top - y + pageScroll.y
+            )
+          );
+      }
     },
   };
 };
