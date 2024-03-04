@@ -152,16 +152,20 @@ module.exports = function initFabricJSOverlay(OpenSeadragon, fabric) {
     },
     // ----------
     resize: function () {
-      if (this._containerWidth !== this._viewer.container.clientWidth) {
-        this._containerWidth = this._viewer.container.clientWidth;
-        this._canvasdiv.setAttribute("width", this._containerWidth);
-        this._canvas.setAttribute("width", this._containerWidth);
+      if(this._viewer.container != null){
+        if (this._containerWidth !== this._viewer.container.clientWidth) {
+          this._containerWidth = this._viewer.container.clientWidth;
+          this._canvasdiv.setAttribute("width", this._containerWidth);
+          this._canvas.setAttribute("width", this._containerWidth);
+        }
       }
-
-      if (this._containerHeight !== this._viewer.container.clientHeight) {
-        this._containerHeight = this._viewer.container.clientHeight;
-        this._canvasdiv.setAttribute("height", this._containerHeight);
-        this._canvas.setAttribute("height", this._containerHeight);
+      
+      if(this._viewer.container != null){
+        if (this._containerHeight !== this._viewer.container.clientHeight) {
+          this._containerHeight = this._viewer.container.clientHeight;
+          this._canvasdiv.setAttribute("height", this._containerHeight);
+          this._canvas.setAttribute("height", this._containerHeight);
+        }
       }
     },
     resizeCanvas: function () {
